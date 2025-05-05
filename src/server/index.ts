@@ -1,6 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { isValidEmail } from './validation/emailValidation';
+import { EMAIL, PASSWORD } from './utils/constants';
+import { automateClientCreation } from './automation/clients/clientAutomation';
 
 // Loading environment variables
 dotenv.config();
@@ -24,6 +27,59 @@ app.use((err: any, _req: express.Request, res: express.Response, next: express.N
   next();
 });
 
+// Client creation automation endpoint
+app.post('/api/automate', async (req, res) => {
+  try {
+    // Validate credentials before proceeding
+    if (!isValidEmail(EMAIL)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation error: Invalid email format in environment configuration'
+      });
+    }
+
+    if (PASSWORD.length < 8) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation error: Password must be at least 8 characters'
+      });
+    }
+
+    const clientData = req.body;
+    console.log('Received client data:', clientData);
+    
+    if (!clientData || Object.keys(clientData).length === 0) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Request body is empty or invalid'
+      });
+    }
+    
+    // Check if clientType is provided and valid
+    if (!clientData.clientType || !['Adult', 'Minor', 'Couple'].includes(clientData.clientType)) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Invalid or missing clientType. Must be Adult, Minor, or Couple.'
+      });
+    }
+    
+    // Run the automation
+    const result = await automateClientCreation(clientData);
+    
+    if (result.success) {
+      return res.status(200).json(result);
+    } else {
+      const statusCode = result.message.includes('Validation error') ? 400 : 500;
+      return res.status(statusCode).json(result);
+    }
+  } catch (error) {
+    console.error('Server error:', error);
+    return res.status(500).json({ 
+      success: false, 
+      message: error instanceof Error ? error.message : 'Unknown server error' 
+    });
+  }
+});
 
 // Health check endpoint
 app.get('/api/health', (_req, res) => {
