@@ -14,7 +14,7 @@ app.use(express.json({
 }));
 
 // Error handling for JSON parsing errors
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: any, _req: express.Request, res: express.Response, next: express.NextFunction) => {
   if (err instanceof SyntaxError && 'body' in err) {
     return res.status(400).json({ 
       success: false, 
@@ -26,12 +26,12 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 
 
 // Health check endpoint
-app.get('/api/health', (req, res) => {
+app.get('/api/health', (_req, res) => {
   res.status(200).json({ status: 'ok' });
 });
 
 // Handling 404 errors
-app.use((req, res) => {
+app.use((_req, res) => {
   res.status(404).json({ 
     success: false, 
     message: 'API endpoint not found' 
