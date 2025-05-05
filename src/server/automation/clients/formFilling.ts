@@ -109,3 +109,58 @@ export async function fillAdultClientForm(page: any, clientData: ClientData) {
 
     console.log('Filled Adult client form');
 }
+
+/**
+ * Fill out the form for a Minor client
+ */
+export async function fillMinorClientForm(page: any, clientData: ClientData) {
+    // Fill client information first
+    await page.fill('input[name="firstName"]', clientData.firstName);
+    await page.fill('input[name="lastName"]', clientData.lastName);
+
+    if (clientData.email) {
+        await page.fill('input[name="email"]', clientData.email);
+    }
+
+    if (clientData.phone) {
+        await page.fill('input[name="phoneNumber"]', clientData.phone);
+    }
+
+    // Handle clinician selection for minor
+    if (clientData.clinician) {
+        await handleClinicianSelection(page, clientData.clinician);
+    }
+
+    // Click on Guardian tab
+    await page.getByText('Guardian').click();
+
+    // Fill guardian information
+    if (clientData.guardianFirstName) {
+        await page.fill('input[name="firstName"]', clientData.guardianFirstName);
+    }
+
+    if (clientData.guardianLastName) {
+        await page.fill('input[name="lastName"]', clientData.guardianLastName);
+    }
+
+    if (clientData.guardianEmail) {
+        await page.fill('input[name="email"]', clientData.guardianEmail);
+    }
+
+    if (clientData.guardianPhone) {
+        await page.fill('input[name="phoneNumber"]', clientData.guardianPhone);
+    }
+
+    if (clientData.guardianRelationship) {
+        await page.fill('input[name="guardianRelationshipToClient"]', clientData.guardianRelationship);
+    }
+
+    // Handle payment type selection
+    await handlePaymentTypeSelection(page, clientData.paymentType);
+
+    // Click the Next button
+    const buttons = await page.$$('button');
+    await buttons[buttons.length - 1].click();
+
+    console.log('Filled Minor client form');
+}
