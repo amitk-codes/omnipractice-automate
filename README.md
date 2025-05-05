@@ -4,13 +4,13 @@ This application automates client creation and appointment scheduling in the Omn
 
 ## Screenshots
 
-### 1
+### 1. Client Automation Tab
 ![](https://drive.google.com/uc?export=view&id=1f_-zHLOe-AaiZ_P-m4Xz90VG-qzH4gPA)
 
-### 2. Client Creation Form
+### 2. Client Automation Tab With Filled Input
 ![](https://drive.google.com/uc?export=view&id=1UN3hXcE8SCQIj4e-6SSoNj7s7CsmLwRy)
 
-### 3. Appointment Scheduling
+### 3. Appointment Automation Tab
 ![](https://drive.google.com/uc?export=view&id=1vkWt8uPdJ_l18AsAIxGxo9K8WuKBQF4T)
 
 ---
