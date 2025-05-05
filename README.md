@@ -53,13 +53,17 @@ This application automates client creation and appointment scheduling in the Omn
 
 ## Running the Application
 
-Start the development server:
+Start the frontend:
 
 ```bash
 npm run dev
 ```
 
-This will start both the frontend (React) and backend (Express) servers.
+Start the backend server:
+
+```bash
+npm run server
+```
 
 ## API Endpoints
 
