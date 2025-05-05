@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { isValidEmail } from './validation/emailValidation';
 import { EMAIL, PASSWORD } from './utils/constants';
 import { automateClientCreation } from './automation/clients/clientAutomation';
+import { automateAppointmentCreation } from './automation/appointments/appointmentAutomation';
 
 // Loading environment variables
 dotenv.config();
@@ -65,6 +66,52 @@ app.post('/api/automate', async (req, res) => {
     
     // Run the automation
     const result = await automateClientCreation(clientData);
+    
+    if (result.success) {
+      return res.status(200).json(result);
+    } else {
+      const statusCode = result.message.includes('Validation error') ? 400 : 500;
+      return res.status(statusCode).json(result);
+    }
+  } catch (error) {
+    console.error('Server error:', error);
+    return res.status(500).json({ 
+      success: false, 
+      message: error instanceof Error ? error.message : 'Unknown server error' 
+    });
+  }
+});
+
+// Appointment creation automation endpoint
+app.post('/api/automate-appointment', async (req, res) => {
+  try {
+    // Validate credentials before proceeding
+    if (!isValidEmail(EMAIL)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation error: Invalid email format in environment configuration'
+      });
+    }
+
+    if (PASSWORD.length < 8) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation error: Password must be at least 8 characters'
+      });
+    }
+
+    const appointmentData = req.body;
+    console.log('Received appointment data:', appointmentData);
+    
+    if (!appointmentData || Object.keys(appointmentData).length === 0) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Request body is empty or invalid'
+      });
+    }
+    
+    // Run the automation
+    const result = await automateAppointmentCreation(appointmentData);
     
     if (result.success) {
       return res.status(200).json(result);
