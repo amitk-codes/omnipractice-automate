@@ -1,0 +1,6 @@
+:root {
+    --omnipractice-green: #064429;
+    --omnipractice-light-green: rgba(6, 68, 41, 0.05);
+    --omnipractice-border-radius: 4px;
+    --font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}

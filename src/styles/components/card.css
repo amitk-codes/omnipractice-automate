@@ -1,0 +1,53 @@
+.card {
+    width: 700px;
+    background-color: white;
+    border-radius: var(--omnipractice-border-radius);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem;
+    border-bottom: 1px solid #eee;
+}
+
+.card-title {
+    color: var(--omnipractice-green);
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #eee;
+}
+
+.tab {
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: #555;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.tab:hover {
+    color: var(--omnipractice-green);
+}
+
+.tab.active {
+    color: var(--omnipractice-green);
+    border-bottom: 2px solid var(--omnipractice-green);
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 0;
+    }
+}

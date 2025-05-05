@@ -1,0 +1,26 @@
+.logs-container {
+    background-color: #1a1a1a;
+    color: #d1d5db;
+    border-radius: var(--omnipractice-border-radius);
+    padding: 1rem;
+    font-family: monospace;
+    height: 300px;
+    overflow-y: auto;
+}
+
+.log-entry {
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.empty-logs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #6b7280;
+}
+
+.font-mono {
+    font-family: monospace;
+}
