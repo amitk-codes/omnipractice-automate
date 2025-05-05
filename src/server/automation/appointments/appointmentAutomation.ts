@@ -105,14 +105,6 @@ export async function automateAppointmentCreation(appointmentData: AppointmentDa
       checkCount++;
       console.log(`Checking for appointment creation errors (attempt ${checkCount}/${maxChecks})...`);
 
-      // Wait for network activity and check for errors
-      try {
-        await page.waitForLoadState('networkidle', { timeout: 20000 });
-        console.log('Network activity completed');
-      } catch (networkError) {
-        console.warn('Timeout waiting for network idle, continuing with error checks');
-      }
-
       // Check for error messages
       appointmentCreationError = await checkForErrorMessages(page, `Appointment creation (check ${checkCount})`);
       if (appointmentCreationError) {

@@ -12,8 +12,6 @@ export async function checkForErrorMessages(page: Page, context: string): Promis
       const errorSelectors = [
         '.MuiAlert-filledError',
         '.MuiAlert-standardError',
-        '.MuiSnackbar-root .MuiAlert-root',
-        '[role="alert"]',
         'text="error"',
         'text="failed"',
         'text="invalid"'

@@ -115,14 +115,6 @@ export async function automateClientCreation(clientData: ClientData) {
         checkCount++;
         console.log(`Checking for client creation errors (attempt ${checkCount}/${maxChecks})...`);
         
-        try {
-          // Wait for network idle with a reasonable timeout
-          await page.waitForLoadState('networkidle', { timeout: 20000 });
-          console.log('Network activity completed');
-        } catch (networkError) {
-          console.warn('Timeout waiting for network idle, continuing with error checks');
-        }
-        
         // Check for error messages
         clientCreationError = await checkForErrorMessages(page, `Client creation (check ${checkCount})`);
         if (clientCreationError) {
