@@ -164,3 +164,81 @@ export async function fillMinorClientForm(page: any, clientData: ClientData) {
 
     console.log('Filled Minor client form');
 }
+
+
+/**
+ * Fill out the form for a Couple client
+ */
+export async function fillCoupleClientForm(page: any, clientData: ClientData) {
+    // Client 1 information
+    await page.fill('input[name="firstName"]', clientData.firstName);
+    await page.fill('input[name="lastName"]', clientData.lastName);
+
+    if (clientData.email) {
+        await page.fill('input[name="email"]', clientData.email);
+    }
+
+    if (clientData.phone) {
+        await page.fill('input[name="phoneNumber"]', clientData.phone);
+    }
+
+    // Handle clinician selection for Client 1
+    if (clientData.clinician) {
+        await handleClinicianSelection(page, clientData.clinician);
+    }
+
+    // Check if Client 1 is responsible for billing
+    if (clientData.responsibleForBilling === 'client 1') {
+        // Check the billing option checkbox if it's not already checked
+        const isChecked = await page.isChecked('input[name="billingOption"]');
+        if (!isChecked) {
+            await page.click('input[name="billingOption"]');
+        }
+
+        // Handle payment type selection for Client 1
+        await handlePaymentTypeSelection(page, clientData.paymentType);
+    }
+
+    // Click on Client 2 tab
+    await page.getByText('Client 2').click();
+
+    // Fill Client 2 information if provided
+    if (clientData.client2FirstName) {
+        await page.fill('input[name="firstName"]', clientData.client2FirstName);
+    }
+
+    if (clientData.client2LastName) {
+        await page.fill('input[name="lastName"]', clientData.client2LastName);
+    }
+
+    if (clientData.client2Email) {
+        await page.fill('input[name="email"]', clientData.client2Email);
+    }
+
+    if (clientData.client2Phone) {
+        await page.fill('input[name="phoneNumber"]', clientData.client2Phone);
+    }
+
+    // Handle clinician selection for Client 2
+    if (clientData.client2Clinician) {
+        await handleClinicianSelection(page, clientData.client2Clinician);
+    }
+
+    // Check if Client 2 is responsible for billing
+    if (clientData.responsibleForBilling === 'client 2') {
+        // Check the billing option checkbox if it's not already checked
+        const isChecked = await page.isChecked('input[name="billingOption"]');
+        if (!isChecked) {
+            await page.click('input[name="billingOption"]');
+        }
+
+        // Handle payment type selection for Client 2
+        await handlePaymentTypeSelection(page, clientData.paymentType);
+    }
+
+    // Click the Next button
+    const buttons = await page.$$('button');
+    await buttons[buttons.length - 1].click();
+
+    console.log('Filled Couple client form');
+}
